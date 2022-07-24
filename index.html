@@ -9,7 +9,20 @@
 </head>
 
 <body>
-    <h1>Hello</h1>
+    <h1>Total users</h1>
+    <div id="user"></div>
+    <div id="time"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket = io();
+        socket.on("message", (msg) => {
+            document.getElementById("user").innerHTML = ` <h2>${msg}</h2>`;
+        });
+        socket.on("myTimeEvent", (time) => {
+            document.getElementById("time").innerHTML = `<h2>${time}</h2>`;
+        });
+    </script>
 </body>
 
 </html>
