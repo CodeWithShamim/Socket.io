@@ -1,5 +1,5 @@
 const express = require("express");
-const port = 5000;
+const port = process.env.PORT || 5000;
 const app = express();
 const http = require("http");
 const expressServer = http.createServer(app);
@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
     })
 
     // send data to client
-    socket.send(user);
+    io.send(user);
 
 
     setInterval(() => {
