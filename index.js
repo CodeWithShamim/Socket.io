@@ -28,6 +28,12 @@ io.on("connection", (socket) => {
         const getDate = date.getTime();
         socket.emit("myTimeEvent", getDate)
     }, 1000)
+
+    // ------received data from client--
+    socket.on("clientToServer", (name) => {
+        // console.log(name);
+        io.emit("serverToClient", name);
+    })
 })
 
 app.get("/", (req, res) => {

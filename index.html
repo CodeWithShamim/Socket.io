@@ -10,17 +10,42 @@
 
 <body>
     <h1>Total users</h1>
-    <div id="user"></div>
+    <div id="innerDiv">
+        <ul id="ul"></ul>
+    </div>
     <div id="time"></div>
+
+    <!-- input field  -->
+
+    <input type="text" name="name" id="name" placeholder="Enter your name" />
+    <input type="submit" value="Send" onclick="sendData()" />
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         let socket = io();
+        const innerDiv = document.getElementById("innerDiv");
         socket.on("message", (msg) => {
-            document.getElementById("user").innerHTML = ` <h2>${msg}</h2>`;
+            innerDiv.innerHTML = ` <h2>${msg}</h2>`;
         });
         socket.on("myTimeEvent", (time) => {
             document.getElementById("time").innerHTML = `<h2>${time}</h2>`;
+        });
+
+        // send data to server
+        const sendData = () => {
+            const inputField = document.getElementById("name");
+            const name = inputField.value;
+            socket.emit("clientToServer", name);
+
+            // clear input field value
+            inputField.value = "";
+        };
+
+        // received data from server
+        socket.on("serverToClient", (name) => {
+            const li = document.createElement("li");
+            li.textContent = name;
+            innerDiv.appendChild(li);
         });
     </script>
 </body>
